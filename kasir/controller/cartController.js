@@ -1,7 +1,7 @@
-const { Category } = require("../models");
-const findCategory = async (req, res) => {
+const { Cart } = require("../models");
+const findCart = async (req, res) => {
   try {
-    const data = await Category.findAll();
+    const data = await Cart.findAll();
     const result = {
       status: "200",
       data: data,
@@ -11,10 +11,10 @@ const findCategory = async (req, res) => {
     next(error);
   }
 };
-const findCategorybyId = async (req, res) => {
+const findCartbyId = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await Category.findByPk(id);
+    const data = await Cart.findByPk(id);
     if (data === null) {
       res.json({
         status: 400,
@@ -31,15 +31,15 @@ const findCategorybyId = async (req, res) => {
   }
 };
 
-const createNewCategory = async (req, res, next) => {
+const createNewCart = async (req, res, next) => {
   const { nama } = req.body;
   try {
-    const newCategory = await Category.create({ nama: nama });
+    const newCart = await Cart.create({ nama: nama });
     res.status(201).json({
       status: "ok",
       data: {
-        id: newCategory.id,
-        nama: newCategory.nama,
+        id: newCart.id,
+        nama: newCart.nama,
       },
     });
   } catch (error) {
@@ -47,44 +47,44 @@ const createNewCategory = async (req, res, next) => {
   }
 };
 
-const updateCategorybyId = async (req, res) => {
+const updateCartbyId = async (req, res) => {
   try {
     const { id } = req.params;
     const { nama } = req.body;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const cart = await Cart.findByPk(id);
+    if (!cart) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.nama = nama;
-    category.updatedAt = new Date();
+    cart.nama = nama;
+    cart.updatedAt = new Date();
 
-    await category.validate();
-    await category.save();
+    await cart.validate();
+    await cart.save();
     res.json({
       status: "success",
       data: {
-        id: category.id,
-        nama: category.nama,
+        id: cart.id,
+        nama: cart.nama,
       },
     });
   } catch (error) {
     next(error);
   }
 };
-const deleteCategorybyId = async (req, res) => {
+const deleteCartbyId = async (req, res) => {
   try {
     const { id } = req.params;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const cart = await Cart.findByPk(id);
+    if (!cart) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.destroy();
+    cart.destroy();
     res.json({
       status: "success",
     });
@@ -93,9 +93,9 @@ const deleteCategorybyId = async (req, res) => {
   }
 };
 module.exports = {
-  findCategory,
-  findCategorybyId,
-  createNewCategory,
-  updateCategorybyId,
-  deleteCategorybyId,
+  findCart,
+  findCartbyId,
+  createNewCart,
+  updateCartbyId,
+  deleteCartbyId,
 };

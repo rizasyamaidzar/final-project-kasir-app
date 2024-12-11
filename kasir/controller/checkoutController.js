@@ -1,7 +1,7 @@
-const { Category } = require("../models");
-const findCategory = async (req, res) => {
+const { Checkout } = require("../models");
+const findCheckout = async (req, res) => {
   try {
-    const data = await Category.findAll();
+    const data = await Checkout.findAll();
     const result = {
       status: "200",
       data: data,
@@ -11,10 +11,10 @@ const findCategory = async (req, res) => {
     next(error);
   }
 };
-const findCategorybyId = async (req, res) => {
+const findCheckoutbyId = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await Category.findByPk(id);
+    const data = await Checkout.findByPk(id);
     if (data === null) {
       res.json({
         status: 400,
@@ -31,15 +31,15 @@ const findCategorybyId = async (req, res) => {
   }
 };
 
-const createNewCategory = async (req, res, next) => {
+const createNewCheckout = async (req, res, next) => {
   const { nama } = req.body;
   try {
-    const newCategory = await Category.create({ nama: nama });
+    const newCheckout = await Checkout.create({ nama: nama });
     res.status(201).json({
       status: "ok",
       data: {
-        id: newCategory.id,
-        nama: newCategory.nama,
+        id: newCheckout.id,
+        nama: newCheckout.nama,
       },
     });
   } catch (error) {
@@ -47,44 +47,44 @@ const createNewCategory = async (req, res, next) => {
   }
 };
 
-const updateCategorybyId = async (req, res) => {
+const updateCheckoutbyId = async (req, res) => {
   try {
     const { id } = req.params;
     const { nama } = req.body;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const checkout = await Checkout.findByPk(id);
+    if (!checkout) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.nama = nama;
-    category.updatedAt = new Date();
+    checkout.nama = nama;
+    checkout.updatedAt = new Date();
 
-    await category.validate();
-    await category.save();
+    await checkout.validate();
+    await checkout.save();
     res.json({
       status: "success",
       data: {
-        id: category.id,
-        nama: category.nama,
+        id: checkout.id,
+        nama: checkout.nama,
       },
     });
   } catch (error) {
     next(error);
   }
 };
-const deleteCategorybyId = async (req, res) => {
+const deleteCheckoutbyId = async (req, res) => {
   try {
     const { id } = req.params;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const checkout = await Checkout.findByPk(id);
+    if (!checkout) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.destroy();
+    checkout.destroy();
     res.json({
       status: "success",
     });
@@ -93,9 +93,9 @@ const deleteCategorybyId = async (req, res) => {
   }
 };
 module.exports = {
-  findCategory,
-  findCategorybyId,
-  createNewCategory,
-  updateCategorybyId,
-  deleteCategorybyId,
+  findCheckout,
+  findCheckoutbyId,
+  createNewCheckout,
+  updateCheckoutbyId,
+  deleteCheckoutbyId,
 };

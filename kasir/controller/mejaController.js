@@ -1,7 +1,7 @@
-const { Category } = require("../models");
-const findCategory = async (req, res) => {
+const { Meja } = require("../models");
+const findMeja = async (req, res) => {
   try {
-    const data = await Category.findAll();
+    const data = await Meja.findAll();
     const result = {
       status: "200",
       data: data,
@@ -11,10 +11,10 @@ const findCategory = async (req, res) => {
     next(error);
   }
 };
-const findCategorybyId = async (req, res) => {
+const findMejabyId = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await Category.findByPk(id);
+    const data = await Meja.findByPk(id);
     if (data === null) {
       res.json({
         status: 400,
@@ -31,15 +31,15 @@ const findCategorybyId = async (req, res) => {
   }
 };
 
-const createNewCategory = async (req, res, next) => {
+const createNewMeja = async (req, res, next) => {
   const { nama } = req.body;
   try {
-    const newCategory = await Category.create({ nama: nama });
+    const newMeja = await Meja.create({ nama: nama });
     res.status(201).json({
       status: "ok",
       data: {
-        id: newCategory.id,
-        nama: newCategory.nama,
+        id: newMeja.id,
+        nama: newMeja.nama,
       },
     });
   } catch (error) {
@@ -47,44 +47,44 @@ const createNewCategory = async (req, res, next) => {
   }
 };
 
-const updateCategorybyId = async (req, res) => {
+const updateMejabyId = async (req, res) => {
   try {
     const { id } = req.params;
     const { nama } = req.body;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const meja = await Meja.findByPk(id);
+    if (!meja) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.nama = nama;
-    category.updatedAt = new Date();
+    meja.nama = nama;
+    meja.updatedAt = new Date();
 
-    await category.validate();
-    await category.save();
+    await meja.validate();
+    await meja.save();
     res.json({
       status: "success",
       data: {
-        id: category.id,
-        nama: category.nama,
+        id: meja.id,
+        nama: meja.nama,
       },
     });
   } catch (error) {
     next(error);
   }
 };
-const deleteCategorybyId = async (req, res) => {
+const deleteMejabyId = async (req, res) => {
   try {
     const { id } = req.params;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const meja = await Meja.findByPk(id);
+    if (!meja) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.destroy();
+    meja.destroy();
     res.json({
       status: "success",
     });
@@ -93,9 +93,9 @@ const deleteCategorybyId = async (req, res) => {
   }
 };
 module.exports = {
-  findCategory,
-  findCategorybyId,
-  createNewCategory,
-  updateCategorybyId,
-  deleteCategorybyId,
+  findMeja,
+  findMejabyId,
+  createNewMeja,
+  updateMejabyId,
+  deleteMejabyId,
 };

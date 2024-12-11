@@ -1,7 +1,7 @@
-const { Category } = require("../models");
-const findCategory = async (req, res) => {
+const { Pesanan } = require("../models");
+const findPesanan = async (req, res) => {
   try {
-    const data = await Category.findAll();
+    const data = await Pesanan.findAll();
     const result = {
       status: "200",
       data: data,
@@ -11,10 +11,10 @@ const findCategory = async (req, res) => {
     next(error);
   }
 };
-const findCategorybyId = async (req, res) => {
+const findPesananbyId = async (req, res) => {
   const { id } = req.params;
   try {
-    const data = await Category.findByPk(id);
+    const data = await Pesanan.findByPk(id);
     if (data === null) {
       res.json({
         status: 400,
@@ -31,15 +31,15 @@ const findCategorybyId = async (req, res) => {
   }
 };
 
-const createNewCategory = async (req, res, next) => {
+const createNewPesanan = async (req, res, next) => {
   const { nama } = req.body;
   try {
-    const newCategory = await Category.create({ nama: nama });
+    const newPesanan = await Pesanan.create({ nama: nama });
     res.status(201).json({
       status: "ok",
       data: {
-        id: newCategory.id,
-        nama: newCategory.nama,
+        id: newPesanan.id,
+        nama: newPesanan.nama,
       },
     });
   } catch (error) {
@@ -47,44 +47,44 @@ const createNewCategory = async (req, res, next) => {
   }
 };
 
-const updateCategorybyId = async (req, res) => {
+const updatePesananbyId = async (req, res) => {
   try {
     const { id } = req.params;
     const { nama } = req.body;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const pesanan = await Pesanan.findByPk(id);
+    if (!pesanan) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.nama = nama;
-    category.updatedAt = new Date();
+    pesanan.nama = nama;
+    pesanan.updatedAt = new Date();
 
-    await category.validate();
-    await category.save();
+    await pesanan.validate();
+    await pesanan.save();
     res.json({
       status: "success",
       data: {
-        id: category.id,
-        nama: category.nama,
+        id: pesanan.id,
+        nama: pesanan.nama,
       },
     });
   } catch (error) {
     next(error);
   }
 };
-const deleteCategorybyId = async (req, res) => {
+const deletePesananbyId = async (req, res) => {
   try {
     const { id } = req.params;
-    const category = await Category.findByPk(id);
-    if (!category) {
+    const pesanan = await Pesanan.findByPk(id);
+    if (!pesanan) {
       return res.json({
         status: "failed",
         message: "data is not exist",
       });
     }
-    category.destroy();
+    pesanan.destroy();
     res.json({
       status: "success",
     });
@@ -93,9 +93,9 @@ const deleteCategorybyId = async (req, res) => {
   }
 };
 module.exports = {
-  findCategory,
-  findCategorybyId,
-  createNewCategory,
-  updateCategorybyId,
-  deleteCategorybyId,
+  findPesanan,
+  findPesananbyId,
+  createNewPesanan,
+  updatePesananbyId,
+  deletePesananbyId,
 };
