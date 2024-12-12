@@ -3,10 +3,10 @@ const { faker } = require("@faker-js/faker");
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    const categories = [1, 5, 3]; // Kategori: 1 (Makanan), 2 (Minuman), 3 (Camilan)
+    const categories = [1, 2, 3]; // Kategori: 1 (Makanan), 2 (Minuman), 3 (Camilan)
     const products = [];
 
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 10; i++) {
       const categoryId = faker.helpers.arrayElement(categories);
       products.push({
         kode: `MI${faker.number.int({ min: 100, max: 999 })}`, // Random kode

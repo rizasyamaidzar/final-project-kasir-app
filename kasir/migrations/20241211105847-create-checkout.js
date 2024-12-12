@@ -12,6 +12,9 @@ module.exports = {
       nama: {
         type: Sequelize.STRING,
       },
+      jumlah: {
+        type: Sequelize.INTEGER,
+      },
       total_harga: {
         type: Sequelize.INTEGER,
       },

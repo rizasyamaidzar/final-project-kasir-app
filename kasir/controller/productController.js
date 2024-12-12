@@ -1,4 +1,5 @@
 const { Product } = require("../models");
+const { Category } = require("../models");
 const findProduct = async (req, res) => {
   try {
     const data = await Product.findAll();
@@ -26,6 +27,36 @@ const findProductbyId = async (req, res) => {
         data: data,
       });
     }
+  } catch (error) {
+    next(error);
+  }
+};
+const searchProducts = async (req, res, next) => {
+  const { category } = req.query;
+
+  try {
+    const products = await Product.findAll({
+      include: [
+        {
+          model: Category,
+          as: "Category", // Pastikan menggunakan alias yang sama dengan di relasi
+          where: category ? { nama: category } : {}, // Filter jika kategori diberikan
+          attributes: ["nama"], // Batasi atribut dari kategori
+        },
+      ],
+    });
+
+    if (products.length === 0) {
+      return res.status(404).json({
+        status: 404,
+        message: "No products found for the given category",
+      });
+    }
+
+    res.json({
+      status: 200,
+      data: products,
+    });
   } catch (error) {
     next(error);
   }
@@ -120,4 +151,5 @@ module.exports = {
   createNewProduct,
   updateCategorybyId,
   deleteCategorybyId,
+  searchProducts,
 };
