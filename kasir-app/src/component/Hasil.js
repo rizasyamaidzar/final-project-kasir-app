@@ -94,7 +94,7 @@ export default class Hasil extends Component {
           <div class="mt-6">
             <button
               onClick={() => this.bayar()}
-              className="w-full flex items-center justify-center rounded-md border border-transparent bg-blue-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700"
+              className="w-full flex items-center justify-center rounded-md border border-transparent bg-gray-900 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-gray-700"
             >
               Checkout
             </button>

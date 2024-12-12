@@ -10,6 +10,8 @@ import {
   Category,
 } from "../component";
 import Alert from "../component/Alert";
+import Chat from "../component/Chat";
+import Promo from "../component/Promo";
 import React, { Component } from "react";
 export default class Home extends Component {
   constructor(props) {
@@ -78,6 +80,14 @@ export default class Home extends Component {
         console.log(error);
       });
   };
+  viewDetail = (value) => {
+    // get keranjang id
+    console.log(value);
+    axios.get(API_URL + "products/" + value.id).then((res) => {
+      localStorage.setItem("productDetail", JSON.stringify(res.data));
+      window.location.href = "/detail";
+    });
+  };
   addKeranjang = (value) => {
     // get keranjang id
     axios
@@ -131,21 +141,32 @@ export default class Home extends Component {
     const { menus, choice, keranjangs } = this.state;
     return (
       <div className="App">
-        <div class="grid grid-rows-1 grid-flow-col gap-4 mx-10 my-20">
-          <Category changeCategory={this.changeCategory} choice={choice} />
-
-          <div class="grid grid-rows-6 grid-flow-col gap-2 mx-5">
+        <Promo />
+        <Category changeCategory={this.changeCategory} choice={choice} />
+        <div class="grid grid-rows-3 md:grid-rows-1 grid-flow-col gap-4 mx-10 my-20">
+          <div>
             {Array.isArray(menus) &&
               menus.map((menu) => (
                 <Menus
                   key={menu.id}
                   menu={menu}
                   addKeranjang={this.addKeranjang}
+                  viewDetail={this.viewDetail}
                 />
               ))}
           </div>
           <Hasil keranjangs={keranjangs} {...this.props} />
           {/* <Hasil {...this.props} /> */}
+        </div>
+        <div class="z-50 fixed bottom-4 right-4">
+          <button
+            class="inline-flex items-center cursor-pointer bg-gray-900 px-6 py-3 font-semibold text-white transition [box-shadow:rgb(171,_196,245)-8px_8px] hover:[box-shadow:rgb(171,_196,_245)0px_0px] rounded-xl"
+            data-modal-target="bottom-right-modal"
+            data-modal-toggle="bottom-right-modal"
+          >
+            Apa yang kamu rasakan hari ini?
+          </button>
+          <Chat />
         </div>
       </div>
     );
