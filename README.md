@@ -2,8 +2,8 @@
 
 ## Prasyarat
 Pastikan Anda telah menginstal:
-- [Node.js](https://nodejs.org) versi terbaru
-- [Git](https://git-scm.com/) (opsional, untuk cloning repository)
+- [Node.js](https://nodejs.org) 
+- [postgres](https://www.postgresql.org/download) (DB engine)
 - Paket manajer npm atau yarn (termasuk dengan Node.js)
 
 ## Langkah-langkah Instalasi
@@ -18,7 +18,7 @@ cd <repository-directory>
 ### 2. Instalasi Backend (Express.js)
 1. Pindah ke direktori backend:
    ```bash
-   cd backend
+   cd kasir
    ```
 
 2. Install dependencies:
@@ -26,9 +26,13 @@ cd <repository-directory>
    npm install
    ```
 
-3. Konfigurasi file `.env`:
-   - Salin file `.env.example` menjadi `.env`
-   - Edit file `.env` sesuai dengan konfigurasi Anda (seperti `DB_URI`, `PORT`, dll).
+3. Migrate database dan jalankan seeder :
+   ```bash
+   npx sequelize db:create
+   ```
+   ```bash
+   npx sequelize-cli db:seed:all
+   ```
 
 4. Jalankan server development:
    ```bash
@@ -39,22 +43,14 @@ cd <repository-directory>
 ### 3. Instalasi Frontend (React.js)
 1. Pindah ke direktori frontend:
    ```bash
-   cd ../frontend
+   cd ../kasir-app
    ```
 
 2. Install dependencies:
    ```bash
    npm install
    ```
-
-3. Konfigurasi file `.env`:
-   - Salin file `.env.example` menjadi `.env`
-   - Edit file `.env` untuk menyesuaikan dengan endpoint API backend, misalnya:
-     ```env
-     REACT_APP_API_URL=http://localhost:5000
-     ```
-
-4. Jalankan server development:
+3. Jalankan server development:
    ```bash
    npm start
    ```
